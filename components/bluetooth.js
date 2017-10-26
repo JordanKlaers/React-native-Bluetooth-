@@ -10,6 +10,7 @@ import { createStore, applyMiddleware, combineReduxers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import {
+  AppRegistry,
   Platform,
   StyleSheet,
   Text,
@@ -31,7 +32,7 @@ function configureStore(initialState) { //put middleware here
   return createStore(reducer, initialState, enhancer);
 }
 
-const store = configureStore({ });
+const store = configureStore({});
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -40,7 +41,7 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-export default class Bluetooth extends Component<{}> {
+export default class Bluetooth extends Component {
   constructor() {
     super();
     this.manager = new BleManager();
@@ -152,19 +153,38 @@ export default class Bluetooth extends Component<{}> {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>
-        </Text>
-      </View>
+      <Provider store={store}>
+        <View style={styles.container}>
+          <Text>
+          </Text>
+        </View>
+      </Provider>
     );
   }
 }
 //
-// class App = () => {
+
+// const App = () => (
 //   <Provider store={store}>
 //     <Bluetooth />
 //   </Provider>
+// )
+// export default class App extends Component {
+//   static navigationOptions = {
+//     header: null
+//   };
+//
+//   render(){
+//     return (
+//       <Provider store={store}>
+//         <Bluetooth />
+//       </Provider>
+//
+//     )
+//   }
 // };
+
+// AppRegistry.registerComponent('Bluetooth', () => App);
 
 const styles = StyleSheet.create({
   container: {
