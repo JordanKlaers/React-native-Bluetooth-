@@ -5,10 +5,10 @@
  */
 
 import React, { Component } from 'react';
-// import { Provider } from 'react-redux';
-// import { createStore, applyMiddleware, combineReduxers, compose } from 'redux';
-// import thunkMiddleware from 'redux-thunk';
-// import createLogger from 'redux-logger';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, combineReduxers, compose } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 import {
   Platform,
   StyleSheet,
@@ -17,21 +17,21 @@ import {
   TouchableHighlight
 } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
-// import reducer from './app/reducers'
+import reducer from '../reducers/index.js'
 
-// const loggerMiddleware = createLogger({ predicate : (getState, action) => __DEV__});
+const loggerMiddleware = createLogger({ predicator: (getState, action) => __DEV__});
 
-// function configureStore(initialState) { //put middleware here
-//   const enhancer = compose(
-//     applyMiddleware(
-//       thunkMiddleware,
-//       loggerMiddleware
-//     )
-//   );
-//   return create(reducer, initialState, enchancer);
-// }
+function configureStore(initialState) { //put middleware here
+  const enhancer = compose(
+    applyMiddleware(
+      thunkMiddleware,
+      loggerMiddleware
+    ),
+  );
+  return createStore(reducer, initialState, enhancer);
+}
 
-// const store = configureStore({});
+const store = configureStore({ });
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -153,11 +153,18 @@ export default class Bluetooth extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-
+        <Text>
+        </Text>
       </View>
     );
   }
 }
+//
+// class App = () => {
+//   <Provider store={store}>
+//     <Bluetooth />
+//   </Provider>
+// };
 
 const styles = StyleSheet.create({
   container: {
