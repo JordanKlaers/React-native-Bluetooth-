@@ -66,7 +66,7 @@ export default class Bluetooth extends Component<{}> {
   }
 
   componentDidMount() {
-    
+
   }
 
   scanAndConnect() {
@@ -91,6 +91,7 @@ export default class Bluetooth extends Component<{}> {
                   console.log(services);
                   this.tempState.writeServiceUUID = services[2].uuid
                   this.tempState.deviceConnection = "Connected!!"
+                  console.log("connected");
                   return this.manager.characteristicsForDevice(this.tempState.deviceID, this.tempState.writeServiceUUID)
                 }).then((characteristic)=> {
                   console.log(characteristic);

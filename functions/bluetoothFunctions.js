@@ -1,5 +1,6 @@
 import { BleManager } from 'react-native-ble-plx';
 
+
 var object = {
   newManager: ()=> {
     return new BleManager()
@@ -18,39 +19,6 @@ var object = {
           bluetoothThis.setState(bluetoothThis.tempState);
         }
     }, true);
-  },
-  scanAndConnect: (bluetoothThis) => {
-    bluetoothThis.manager.startDeviceScan(null, null, (error, device) => {
-      console.log("scanning?");
-        if (error) {
-            return
-        }
-        if (device.name === 'raspberrypi') {
-            bluetoothThis.manager.stopDeviceScan();
-            bluetoothThis.manager.connectToDevice(device.id)
-                .then((device) => {
-                  bluetoothThis.tempState.device = device;
-                  return device.discoverAllServicesAndCharacteristics();
-                })
-                .then((device) => {
-                  bluetoothThis.tempState.deviceID = device.id
-                  return bluetoothThis.manager.servicesForDevice(device.id)
-                })
-                .then((services) => {
-                  console.log(services);
-                  bluetoothThis.tempState.writeServiceUUID = services[2].uuid
-                  bluetoothThis.tempState.deviceConnection = "Connected!!"
-                  console.log("connected");
-                  return bluetoothThis.manager.characteristicsForDevice(bluetoothThis.tempState.deviceID, bluetoothThis.tempState.writeServiceUUID)
-                }).then((characteristic)=> {
-                  console.log(characteristic);
-                  bluetoothThis.tempState.writeCharacteristicUUID = characteristic[0].uuid
-                  bluetoothThis.setState(bluetoothThis.tempState, ()=> {})
-                }, (error) => {
-                  console.log(error);
-                });
-        }
-    });
   },
   checkConnection: (bluetoothThis) => {
     console.log(bluetoothThis.state.deviceID);
