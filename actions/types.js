@@ -1,0 +1,1 @@
+export const BLUETOOTH_ACTION = "BLUETOOTH_ACTION"

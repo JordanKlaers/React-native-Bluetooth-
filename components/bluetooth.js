@@ -5,6 +5,10 @@
  */
 
 import React, { Component } from 'react';
+// import { Provider } from 'react-redux';
+// import { createStore, applyMiddleware, combineReduxers, compose } from 'redux';
+// import thunkMiddleware from 'redux-thunk';
+// import createLogger from 'redux-logger';
 import {
   Platform,
   StyleSheet,
@@ -13,7 +17,21 @@ import {
   TouchableHighlight
 } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
-var bluetooth = require("../functions/bluetoothFunctions.js");
+// import reducer from './app/reducers'
+
+// const loggerMiddleware = createLogger({ predicate : (getState, action) => __DEV__});
+
+// function configureStore(initialState) { //put middleware here
+//   const enhancer = compose(
+//     applyMiddleware(
+//       thunkMiddleware,
+//       loggerMiddleware
+//     )
+//   );
+//   return create(reducer, initialState, enchancer);
+// }
+
+// const store = configureStore({});
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -25,7 +43,7 @@ const instructions = Platform.select({
 export default class Bluetooth extends Component<{}> {
   constructor() {
     super();
-    this.manager = bluetooth.newManager();
+    this.manager = new BleManager();
     this.state = {
       device: null,
       deviceID: null,
@@ -48,8 +66,6 @@ export default class Bluetooth extends Component<{}> {
   }
 
   componentWillMount() {
-    //bluetooth.newManager();
-      // console.log();
     const subscription = this.manager.onStateChange((state) => {
         if (state === 'PoweredOn') {
           console.log("PoweredOn");
@@ -70,8 +86,8 @@ export default class Bluetooth extends Component<{}> {
   }
 
   scanAndConnect() {
+    console.log("scanning?");
     this.manager.startDeviceScan(null, null, (error, device) => {
-      console.log("scanning?");
         if (error) {
             return
         }
